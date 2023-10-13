@@ -37,6 +37,7 @@ docker-compose exec web python script.py
 
 # Example :
 as an example searching for .mil data gives:
+<br>
 <img src="https://github.com/yousseflahouifi/CloudPulse/blob/main/cloudpulse.jpg" alt=".mil data" width="50%">
 # Limitations :
 CloudPulse heavily depends on the data.csv file, which is a sample dataset extracted from the larger collection maintained by Trickest. While the sample dataset provides valuable insights, the tool's full potential is realized when used in conjunction with the complete dataset, which is accessible in the Trickest repository [here](https://github.com/trickest/cloud).
