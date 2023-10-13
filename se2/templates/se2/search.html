@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CloudPulse</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .results {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .result-box {
+            background-color: #444;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 15px;
+            width: 100%; /* Make the boxes 100% wide */
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            max-height: 200px; /* Set a fixed maximum height for the boxes */
+            overflow-y: auto; /* Enable vertical scrolling if necessary */
+        }
+
+        .result-box p {
+            margin: 0;
+            color: #fff;
+            font-size: 18px;
+            word-wrap: break-word; /* Allow long words to wrap */
+        }
+
+        .field-name {
+            color: #007bff; /* Change the color of field names */
+        }
+
+        .empty-field {
+            color: #ff0000; /* Color to indicate empty fields */
+        }
+
+        .box-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background-color: #333; /* Background color for the header */
+            padding: 10px; /* Add padding for better separation */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+        }
+
+        .ip-address {
+            color: #ff8800; /* Change the color of the IP address */
+        }
+
+        /* Style the scrollbar */
+        .result-box::-webkit-scrollbar {
+            width: 5px; /* Make the scrollbar thinner */
+        }
+
+        .result-box::-webkit-scrollbar-thumb {
+            background-color: #444; /* Match the scrollbar thumb color to the box background */
+            border-radius: 5px;
+        }
+
+        .result-box::-webkit-scrollbar-track {
+            background: transparent; /* Make the scrollbar track transparent */
+        }
+
+        .count {
+            color: #4caf50; /* Change the color to hacker green */
+            font-size: 18px;
+            margin: 10px 0; /* Adjust the margin */
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pagination button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 120px; /* Fixed width for both buttons */
+        }
+
+        .pagination button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CloudPulse: AWS Cloud Landscape Search</h1>
+    </div>
+    <div class="container">
+        <form>
+            <input id="q" name="q" type="text" placeholder="Your search ..." />
+            <button type="submit">Search</button>
+        </form>
+        {% if data %}
+        <div class="count">Results: {{ count }}</div>
+        <div class="results">
+            {% for item in data %}
+            <div class="result-box">
+                <p class="box-header">{{ item.ip }}</p>
+                <p><span class="field-name">Common Name:</span> {{ item.common_name }}</p>
+                <p><span class="field-name">Organization:</span> {{ item.organization }}</p>
+                <p><span class="field-name">SAN DNS:</span> {% if item.sandns %} {{ item.sandns }} {% else %} <span class="empty-field">(Empty)</span> {% endif %}</p>
+                <p><span class="field-name">SAN IP:</span> {% if item.sanip %} {{ item.sanip }} {% else %} <span class="empty-field">(Empty)</span> {% endif %}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            <button id="prev" onclick="changePage(-1)">Previous</button>
+            <button id="next" onclick="changePage(1)">Next</button>
+        </div>
+        {% endif %}
+    </div>
+    <script>
+        // Function to change the page by updating the 's' parameter
+        function changePage(offset) {
+            const url = new URL(window.location.href);
+            const s = parseInt(url.searchParams.get("s")) || 1;
+            const newS = s + offset;
+            if (newS > 0) {
+                url.searchParams.set("s", newS);
+                window.location.href = url.toString();
+            }
+        }
+    </script>
+</body>
+</html>
+

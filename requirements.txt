@@ -1,0 +1,4 @@
+Django==2.1.15
+django-elasticsearch-dsl==0.5.1
+pyexcel==0.5.13
+pyexcel-io==0.5.17
