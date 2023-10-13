@@ -124,6 +124,6 @@ STATIC_URL = '/static/'
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'se:9200'
+        'hosts': 'es:9200'
     },
 }
