@@ -3,6 +3,10 @@ During the reconnaissance phase, an attacker searches for any information about 
 <br>
 CloudPulse is a powerful tool that simplifies and enhances the analysis of SSL certificate data. It leverages the extensive repository of SSL certificates obtained from the AWS EC2 machines available at [Trickest Cloud](https://github.com/trickest/cloud). With CloudPulse , security researchers can efficiently explore SSL certificate details, uncover potential vulnerabilities, and gather valuable insights for a variety of security-related tasks.
 
+# Architecture and how it works
+<img src="https://github.com/yousseflahouifi/CloudPulse/blob/main/cp.png" alt="cloudpulse" width="100%">
+<br>
+
 # How can it benefit you 
 
 Simplifies security assessments with a user-friendly interface. It allows you to effortlessly find company's asset's on aws cloud:
