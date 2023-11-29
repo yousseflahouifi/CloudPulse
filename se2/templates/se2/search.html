@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>CloudPulse</title>
+    <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-rbs5eEYWE0IwPnGbH5IIofwga5WOKKuRas0PJrqKofaw2D8Cz3P/Jm5mgIXm9ZyC" crossorigin="anonymous">
+
+<!-- Bootstrap JS and Popper.js (required for Bootstrap) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-rbs5eEYWE0IwPnGbH5IIofwga5WOKKuRas0PJrqKofaw2D8Cz3P/Jm5mgIXm9ZyC" crossorigin="anonymous"></script>
+
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -145,6 +152,64 @@
         .pagination button:hover {
             background-color: #0056b3;
         }
+        /* Style for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #222;
+            color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #444;
+            width: 80%;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            position: relative; /* Added for positioning of loading spinner */
+        }
+
+        /* Style for the close button */
+        #closeModal {
+            cursor: pointer;
+            float: right;
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #closeModal:hover {
+            color: #ccc;
+        }
+
+        /* Style for the loading spinner */
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -25px; /* Half of the loader height */
+            margin-left: -25px; /* Half of the loader width */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 <body>
@@ -161,7 +226,18 @@
         <div class="results">
             {% for item in data %}
             <div class="result-box">
-                <p class="box-header">{{ item.ip }}</p>
+                <p class="box-header">
+			
+			{{ item.ip }}
+			
+			
+                         <!-- Replace this with your search icon SVG code or icon library -->
+        			<svg xmlns="http://www.w3.org/2000/svg" onclick="startScan('{{ item.ip }}')" id="scanButton" width="16" style="cursor: pointer;float: right; "  height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  				<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+				</svg>
+    			
+			
+		</p>
                 <p><span class="field-name">Common Name:</span> {{ item.common_name }}</p>
                 <p><span class="field-name">Organization:</span> {{ item.organization }}</p>
                 <p><span class="field-name">SAN DNS:</span> {% if item.sandns %} {{ item.sandns }} {% else %} <span class="empty-field">(Empty)</span> {% endif %}</p>
@@ -175,6 +251,15 @@
         </div>
         {% endif %}
     </div>
+    <!-- The modal -->
+<div id="resultModal" class="modal">
+    <div class="modal-content">
+        <span id="closeModal">&times;</span>
+        <div class="loader"></div>
+        <pre id="resultContent" style="display: none;">Sample Result Content</pre>
+    </div>
+</div>
+
     <script>
         // Function to change the page by updating the 's' parameter
         function changePage(offset) {
@@ -186,6 +271,50 @@
                 window.location.href = url.toString();
             }
         }
+
+        function startScan(parameter) {
+        // Display the modal
+            const modal = document.getElementById('resultModal');
+            modal.style.display = 'block';
+
+    // Show loading spinner and hide result content
+            const resultContent = document.getElementById('resultContent');
+            resultContent.style.display = 'none';
+
+    // Close the modal when the close button is clicked
+            const closeModal = document.getElementById('closeModal');
+            closeModal.addEventListener('click', closeTheModal);
+
+    // Make an AJAX request to your Django endpoint
+            fetch(`/nmap/?q=${parameter}`)
+                .then(response => response.text())
+                .then(result => {
+            // Hide loading spinner and show result content
+                    if(result.trim() === ''){
+                     resultContent.innerHTML = 'Nothing found.';
+                    }
+                    else{
+                    resultContent.innerHTML = result;
+                    resultContent.style.display = 'block';
+                    }
+                    // Hide the loading spinner explicitly
+                    const loader = document.querySelector('.loader');
+                    loader.style.display = 'none';
+
+                })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+function closeTheModal() {
+    const modal = document.getElementById('resultModal');
+    modal.style.display = 'none';
+    const loader = document.querySelector('.loader');
+    loader.style.display = 'block';
+}
+
+
     </script>
 </body>
 </html>
