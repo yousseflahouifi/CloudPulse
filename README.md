@@ -16,6 +16,7 @@ Simplifies security assessments with a user-friendly interface. It allows you to
 - domains associated with a target
 - organization name
 - discover origin ips
+- perform active scanning on different other ports 
 
  # 🛠️ Installation
  ### Method 1 :
@@ -81,6 +82,7 @@ python script.py
 python manage.py runserver 0:8000
 ```
 
+*Note:* You need nmap on ur system
 
 
 
