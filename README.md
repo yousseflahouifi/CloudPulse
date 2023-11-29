@@ -4,7 +4,7 @@ During the reconnaissance phase, an attacker searches for any information about 
 CloudPulse is a powerful tool that simplifies and enhances the analysis of SSL certificate data. It leverages the extensive repository of SSL certificates obtained from the AWS EC2 machines available at [Trickest Cloud](https://github.com/trickest/cloud). With CloudPulse , security researchers can efficiently explore SSL certificate details, uncover potential vulnerabilities, and gather valuable insights for a variety of security-related tasks.
 
 # Architecture and how it works
-<img src="https://github.com/yousseflahouifi/CloudPulse/blob/main/cp.png" alt="cloudpulse" width="100%">
+<img src="https://github.com/yousseflahouifi/CloudPulse/blob/main/images/cp.png" alt="cloudpulse" width="100%">
 <br>
 
 # How can it benefit you 
@@ -92,12 +92,12 @@ python manage.py runserver 0:8000
 # Example :
 as an example searching for .mil data gives:
 <br>
-<img src="https://github.com/yousseflahouifi/CloudPulse/blob/main/cloudpulse.jpg" alt=".mil data" width="50%">
+<img src="https://github.com/yousseflahouifi/CloudPulse/blob/main/images/cloudpulse.png" alt=".mil data" width="50%">
 
 Performing active scanning on different other ports :
 
 <br>
-<img src="https://github.com/yousseflahouifi/CloudPulse/blob/main/as.png" alt="active scan" width="50%">
+<img src="https://github.com/yousseflahouifi/CloudPulse/blob/main/images/as.png" alt="active scan" width="50%">
 
 # Limitations :
 CloudPulse heavily depends on the data.csv file, which is a sample dataset extracted from the larger collection maintained by Trickest. While the sample dataset provides valuable insights, the tool's full potential is realized when used in conjunction with the complete dataset, which is accessible in the Trickest repository [here](https://github.com/trickest/cloud).
